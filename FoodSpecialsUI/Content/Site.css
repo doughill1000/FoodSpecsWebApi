@@ -1,0 +1,116 @@
+﻿/*Table of Contents
+
+    Footable Styles
+    Boostrap Overrides
+        Background Colors
+        Modal Styles
+    Column Styles
+    Table
+    SearchRestaurants Form
+        
+*/
+
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/********************************
+        Footable Styles
+*********************************/
+/*Footable styles*/
+.footable-toggle{
+    cursor: pointer;
+}
+
+
+/********************************
+        Bootstrap Styles
+*********************************/
+
+/*Background Colors*/
+.bg-danger{
+  background-color: #f2dede !important;
+}
+
+.navbar-no-hover{
+    background-color: transparent !important;
+}
+
+/*Modal Styles*/
+.modal-footer{
+    margin-top: 0 !important;
+    border-top: none !important;
+}
+
+.modal-header{
+    border-bottom: 0 !important
+}
+
+.modal-header h4{
+    color: black;
+}
+
+/*Buttons*/
+.btn {
+    padding: .1em .5em .1em .5em 
+}
+
+/********************************
+        Column Styles
+*********************************/
+
+.col-width-ten{
+    width:10%;
+}
+.col-width-twenty{
+    width:20%;
+}
+.col-width-thirty{
+    width:30%;
+}
+.col-width-forty{
+    width:40%;
+}
+.col-width-fifty{
+    width:50%;
+}
+.col-width-sixty{
+    width:60%;
+}
+.col-width-seventy{
+    width:70%;
+}
+.col-width-eighty{
+    width:80%;
+}
+
+/********************************
+        Table
+*********************************/
+
+#searchResults td{
+    padding-right: 1em;
+    padding-bottom: .5em;
+}
+
+/********************************
+        SearchRestaurants Form
+*********************************/
+#SearchRestaurants #btnSearch{
+    font-size: 16px;
+}

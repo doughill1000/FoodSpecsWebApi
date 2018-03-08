@@ -1,0 +1,136 @@
+﻿@model IEnumerable<FoodSpecialsUI.ViewModels.DailyFoodSpecialViewModel>
+
+@{
+    ViewBag.Title = "Food Specials";
+}
+
+<script src="~/scripts/jquery-2.2.4.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/scripts/footable.min.js"></script>
+<script src="~/scripts/moment.min.js"></script>
+<link href="~/Content/footable.bootstrap.min.css" rel="stylesheet" />
+
+<script>
+    $(document).ready(function() {
+        $('table').footable();
+
+        $('.deleteLink').on('click', function (e) {
+            e.preventDefault();
+            $('#CommonModalDialog').load($(this).data('value'));
+            $('#CommonModal').modal('show');
+        });
+
+        //Create functionality for delete button
+        $('#CommonModal').on('shown.bs.modal', function () {
+            $('.deleteButton').off('click');
+            $('.deleteButton').on('click', function () {
+                var url = $('.deleteButton').data('url');
+                $.post(url, function (data) {
+                    $('#CommonModal').modal('hide');
+                    location.reload();
+                })
+                .fail(function () {
+                    alert("error")
+                });
+            })
+        });
+    });
+</script>
+
+<h2>Food Specials</h2>
+
+<span>
+    <a href="@Url.Action("Create")" class="btn btn-primary"><span class="footable-toggle fooicon fooicon-plus"></span>&nbsp; Create New Food Special</a>
+</span>
+
+    @*@Html.ActionLink("Create New Food Special", "Create", null, new { @class = "btn btn-primary" })*@
+<table class="table" data-paging="true" data-sorting="true" data-filtering="true">
+    <thead>
+        <tr style="text-align:center">
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th data-breakpoints="xs sm">
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th data-sortable="false" data-breakpoints="xs sm md">
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th data-sortable="false" data-breakpoints="xs sm md">
+                @Html.DisplayNameFor(model => model.EndTime)
+            </th>
+            <th data-breakpoints="all" data-type="html" data-sort-use="text">
+                @Html.DisplayNameFor(model => model.SundayActive)
+            </th>
+            <th data-breakpoints="all" data-type="html" data-sort-use="text">
+                @Html.DisplayNameFor(model => model.MondayActive)
+            </th>
+            <th data-breakpoints="all" data-type="html" data-sort-use="text">
+                @Html.DisplayNameFor(model => model.TuesdayActive)
+            </th>
+            <th data-breakpoints="all" data-type="html" data-sort-use="text">
+                @Html.DisplayNameFor(model => model.WednesdayActive)
+            </th>
+            <th data-breakpoints="all" data-type="html" data-sort-use="text">
+                @Html.DisplayNameFor(model => model.ThursdayActive)
+            </th>
+            <th data-breakpoints="all" data-type="html" data-sort-use="text">
+                @Html.DisplayNameFor(model => model.FridayActive)
+            </th>
+            <th data-breakpoints="all" data-type="html" data-sort-use="text">
+                @Html.DisplayNameFor(model => model.SaturdayActive)
+            </th>
+            <th data-breakpoints="xs sm md">
+                @Html.DisplayNameFor(model => model.RestaurantName)
+            </th>
+            <th data-type="html" data-sort-use="text">Actions</th>
+        </tr>
+    </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SundayActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MondayActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TuesdayActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WednesdayActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThursdayActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FridayActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SaturdayActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RestaurantName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.SpecialId }) |
+                    <a href="#" id="@item.SpecialId" class="deleteLink" data-value="/FoodSpecials/Delete?id=@item.SpecialId">Delete</a>
+                </td>
+            </tr>
+        }
+
+</table>

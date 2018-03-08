@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HillBrosInc_FoodSpecialsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FoodSpecial">
+          <Key>
+            <PropertyRef Name="SpecialId" />
+          </Key>
+          <Property Name="SpecialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="Sunday" Type="bit" Nullable="false" />
+          <Property Name="Monday" Type="bit" Nullable="false" />
+          <Property Name="Tuesday" Type="bit" Nullable="false" />
+          <Property Name="Wednesday" Type="bit" Nullable="false" />
+          <Property Name="Thursday" Type="bit" Nullable="false" />
+          <Property Name="Friday" Type="bit" Nullable="false" />
+          <Property Name="Saturday" Type="bit" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="AllDay" Type="bit" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="SpecialType" Type="nvarchar" MaxLength="50" />
+          <Property Name="RestaurantId" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="OwnerId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSpecialRating">
+          <Key>
+            <PropertyRef Name="SpecialID" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="SpecialID" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Rating" Type="int" />
+        </EntityType>
+        <Association Name="FK_FoodSpecial_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="FoodSpecial" Type="Self.FoodSpecial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodSpecial">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSpecialRating_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserSpecialRating" Type="Self.UserSpecialRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSpecialRating">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSpecialRating_FoodSpecial">
+          <End Role="FoodSpecial" Type="Self.FoodSpecial" Multiplicity="1" />
+          <End Role="UserSpecialRating" Type="Self.UserSpecialRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodSpecial">
+              <PropertyRef Name="SpecialId" />
+            </Principal>
+            <Dependent Role="UserSpecialRating">
+              <PropertyRef Name="SpecialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HillBrosInc_FoodSpecialsModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FoodSpecial" EntityType="Self.FoodSpecial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSpecialRating" EntityType="Self.UserSpecialRating" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FoodSpecial_AspNetUsers" Association="Self.FK_FoodSpecial_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="FoodSpecial" EntitySet="FoodSpecial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSpecialRating_AspNetUsers" Association="Self.FK_UserSpecialRating_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserSpecialRating" EntitySet="UserSpecialRating" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSpecialRating_FoodSpecial" Association="Self.FK_UserSpecialRating_FoodSpecial">
+            <End Role="FoodSpecial" EntitySet="FoodSpecial" />
+            <End Role="UserSpecialRating" EntitySet="UserSpecialRating" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HillBrosInc_FoodSpecialsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HillBrosInc_FoodSpecialsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="HillBrosInc_FoodSpecialsModel.AspNetUser" />
+          <EntitySet Name="UserSpecialRatings" EntityType="HillBrosInc_FoodSpecialsModel.UserSpecialRating" />
+          <AssociationSet Name="FK_UserSpecialRating_AspNetUsers" Association="HillBrosInc_FoodSpecialsModel.FK_UserSpecialRating_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserSpecialRating" EntitySet="UserSpecialRatings" />
+          </AssociationSet>
+          <EntitySet Name="FoodSpecials" EntityType="HillBrosInc_FoodSpecialsModel.FoodSpecial" />
+          <AssociationSet Name="FK_FoodSpecial_AspNetUsers" Association="HillBrosInc_FoodSpecialsModel.FK_FoodSpecial_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="FoodSpecial" EntitySet="FoodSpecials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSpecialRating_FoodSpecial" Association="HillBrosInc_FoodSpecialsModel.FK_UserSpecialRating_FoodSpecial">
+            <End Role="FoodSpecial" EntitySet="FoodSpecials" />
+            <End Role="UserSpecialRating" EntitySet="UserSpecialRatings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserSpecialRatings" Relationship="HillBrosInc_FoodSpecialsModel.FK_UserSpecialRating_AspNetUsers" FromRole="AspNetUser" ToRole="UserSpecialRating" />
+          <NavigationProperty Name="FoodSpecials" Relationship="HillBrosInc_FoodSpecialsModel.FK_FoodSpecial_AspNetUsers" FromRole="AspNetUser" ToRole="FoodSpecial" />
+        </EntityType>
+        <EntityType Name="UserSpecialRating">
+          <Key>
+            <PropertyRef Name="SpecialID" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="SpecialID" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Rating" Type="Int32" />
+          <NavigationProperty Name="AspNetUser" Relationship="HillBrosInc_FoodSpecialsModel.FK_UserSpecialRating_AspNetUsers" FromRole="UserSpecialRating" ToRole="AspNetUser" />
+          <NavigationProperty Name="FoodSpecial" Relationship="HillBrosInc_FoodSpecialsModel.FK_UserSpecialRating_FoodSpecial" FromRole="UserSpecialRating" ToRole="FoodSpecial" />
+        </EntityType>
+        <Association Name="FK_UserSpecialRating_AspNetUsers">
+          <End Type="HillBrosInc_FoodSpecialsModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="HillBrosInc_FoodSpecialsModel.UserSpecialRating" Role="UserSpecialRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSpecialRating">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FoodSpecial">
+          <Key>
+            <PropertyRef Name="SpecialId" />
+          </Key>
+          <Property Name="SpecialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Sunday" Type="Boolean" Nullable="false" />
+          <Property Name="Monday" Type="Boolean" Nullable="false" />
+          <Property Name="Tuesday" Type="Boolean" Nullable="false" />
+          <Property Name="Wednesday" Type="Boolean" Nullable="false" />
+          <Property Name="Thursday" Type="Boolean" Nullable="false" />
+          <Property Name="Friday" Type="Boolean" Nullable="false" />
+          <Property Name="Saturday" Type="Boolean" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="AllDay" Type="Boolean" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="SpecialType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RestaurantId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OwnerId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="HillBrosInc_FoodSpecialsModel.FK_FoodSpecial_AspNetUsers" FromRole="FoodSpecial" ToRole="AspNetUser" />
+          <NavigationProperty Name="UserSpecialRatings" Relationship="HillBrosInc_FoodSpecialsModel.FK_UserSpecialRating_FoodSpecial" FromRole="FoodSpecial" ToRole="UserSpecialRating" />
+        </EntityType>
+        <Association Name="FK_FoodSpecial_AspNetUsers">
+          <End Type="HillBrosInc_FoodSpecialsModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="HillBrosInc_FoodSpecialsModel.FoodSpecial" Role="FoodSpecial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FoodSpecial">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSpecialRating_FoodSpecial">
+          <End Type="HillBrosInc_FoodSpecialsModel.FoodSpecial" Role="FoodSpecial" Multiplicity="1" />
+          <End Type="HillBrosInc_FoodSpecialsModel.UserSpecialRating" Role="UserSpecialRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodSpecial">
+              <PropertyRef Name="SpecialId" />
+            </Principal>
+            <Dependent Role="UserSpecialRating">
+              <PropertyRef Name="SpecialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HillBrosInc_FoodSpecialsModelStoreContainer" CdmEntityContainer="HillBrosInc_FoodSpecialsEntities">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="HillBrosInc_FoodSpecialsModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSpecialRatings">
+            <EntityTypeMapping TypeName="HillBrosInc_FoodSpecialsModel.UserSpecialRating">
+              <MappingFragment StoreEntitySet="UserSpecialRating">
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SpecialID" ColumnName="SpecialID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodSpecials">
+            <EntityTypeMapping TypeName="HillBrosInc_FoodSpecialsModel.FoodSpecial">
+              <MappingFragment StoreEntitySet="FoodSpecial">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
+                <ScalarProperty Name="SpecialType" ColumnName="SpecialType" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="AllDay" ColumnName="AllDay" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Saturday" ColumnName="Saturday" />
+                <ScalarProperty Name="Friday" ColumnName="Friday" />
+                <ScalarProperty Name="Thursday" ColumnName="Thursday" />
+                <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
+                <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
+                <ScalarProperty Name="Monday" ColumnName="Monday" />
+                <ScalarProperty Name="Sunday" ColumnName="Sunday" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="SpecialId" ColumnName="SpecialId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

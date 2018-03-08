@@ -1,0 +1,173 @@
+﻿@model FoodSpecialsUI.ViewModels.DailyFoodSpecialViewModel
+
+<script>
+    var $startTime, $endTime;
+
+    $(document).ready(function () {
+        $startTime = $('#StartTime');
+        $endTime = $('#EndTime');
+
+        $startTime.timepicker({
+            maxTime: '11:30 pm', //Start time cannot be 11:30 PM
+            timeFormat: 'g:i A' // i.e. 12:00 AM
+        });
+
+        $endTime.timepicker({
+            minTime: '12:30 am', //End time cannot be 12:00 AM
+            timeFormat: 'g:i A' // i.e. 12:00 AM
+        });
+
+        $startTime.on('changeTime', function () { adjustTimePickers(true, $startTime, $endTime) });
+        $endTime.on('changeTime', function () { adjustTimePickers(false, $startTime, $endTime) });
+
+        //var restaurants = $.ajax({
+        //    url: '/FoodSpecials/GetRestaurantsNamesJson',
+        //    data: { partialName: 'Test' },
+        //    async: false,
+        //    type: 'POST',
+        //    success: function (data) {
+        //        return data;
+        //    }
+        //})
+
+        $('#RestaurantName').blur(function () {
+            if ($(this).val() === "") {
+                $(this).val("");
+                $('#RestaurantId').val("");
+            }
+        })
+    });
+
+    /**
+     * Ensures that the start time and end time stay valid. If the start time passes over the 
+     * end time, it will bump the end time 30 minutes past new start time. If end time goes before
+     * the start time, the start time will be bumped back 30 minutes
+     *
+     * param {Boolean} isStartTimeChange - If true, the start time timepicker was changed
+     * param {Element} $startTime - Element with the starting time 
+     * param {Element} $endTime - Element with the end time
+     */
+
+    function adjustTimePickers (isStartTimeChange, $startTime, $endTime) {
+        var startTime = moment($startTime.timepicker("getTime"));
+        var endTime = moment($endTime.timepicker("getTime"));
+        if (isStartTimeChange && (startTime.isSame(endTime) || startTime.isAfter(endTime))) {
+            $endTime.timepicker("setTime", startTime.add(30, 'm').format('h:mm a'));
+        }
+        else if (!isStartTimeChange && (endTime.isSame(startTime) || endTime.isBefore(startTime))) {
+            $startTime.timepicker("setTime", endTime.subtract(30, 'm').format('h:mm a'));
+        }
+    }
+</script>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @cols = 40 })
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(model => model.StartTime, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(model => model.EndTime, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.SundayActive, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="checkbox">
+            @Html.EditorFor(model => model.SundayActive)
+            @Html.ValidationMessageFor(model => model.SundayActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.MondayActive, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="checkbox">
+            @Html.EditorFor(model => model.MondayActive)
+            @Html.ValidationMessageFor(model => model.MondayActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.TuesdayActive, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="checkbox">
+            @Html.EditorFor(model => model.TuesdayActive)
+            @Html.ValidationMessageFor(model => model.TuesdayActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.WednesdayActive, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="checkbox">
+            @Html.EditorFor(model => model.WednesdayActive)
+            @Html.ValidationMessageFor(model => model.WednesdayActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ThursdayActive, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="checkbox">
+            @Html.EditorFor(model => model.ThursdayActive)
+            @Html.ValidationMessageFor(model => model.ThursdayActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.FridayActive, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="checkbox">
+            @Html.EditorFor(model => model.FridayActive)
+            @Html.ValidationMessageFor(model => model.FridayActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.SaturdayActive, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="checkbox">
+            @Html.EditorFor(model => model.SaturdayActive)
+            @Html.ValidationMessageFor(model => model.SaturdayActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.RestaurantName, "Restaurant", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.HiddenFor(model => model.RestaurantId)
+        @Html.AutocompleteFor(model => model.RestaurantName, model => model.RestaurantId, "GetRestaurantNamesJson", "FoodSpecials", false)
+        @*<input type="text" data-provide="typeahead" autocomplete="off" class="form-control" id="RestaurantName" name="RestaurantName"/>*@ 
+        @Html.ValidationMessageFor(model => model.RestaurantId, "", new { @class = "text-danger" })
+    </div>
+</div>

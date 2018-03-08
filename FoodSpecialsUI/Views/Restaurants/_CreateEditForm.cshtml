@@ -1,0 +1,106 @@
+﻿@model FoodSpecialsUI.ViewModels.RestaurantViewModel
+
+<script>
+    var $openingTime, $closingTime;
+
+    $(document).ready(function () {
+        $openingTime = $('#OpeningTime');
+        $closingTime = $('#ClosingTime');
+
+        $openingTime.timepicker({
+            maxTime: '11:30 pm', //Start time cannot be 11:30 PM
+            timeFormat: 'g:i A' // i.e. 12:00 AM
+        });
+
+        $closingTime.timepicker({
+            minTime: '12:30 am', //End time cannot be 12:00 AM
+            timeFormat: 'g:i A' // i.e. 12:00 AM
+        });
+
+        $openingTime.on('changeTime', function () { adjustTimePickers(true, $openingTime, $closingTime) });
+        $closingTime.on('changeTime', function () { adjustTimePickers(false, $openingTime, $closingTime) });
+    });
+
+    /**
+     * Ensures that the start time and end time stay valid. If the start time passes over the
+     * end time, it will bump the end time 30 minutes past new start time. If end time goes before
+     * the start time, the start time will be bumped back 30 minutes
+     *
+     * param {Boolean} isStartTimeChange - If true, the start time timepicker was changed
+     * param {Element} $startTime - Element with the starting time 
+     * param {Element} $endTime - Element with the end time
+     */
+    function adjustTimePickers (isStartTimeChange, $startTime, $endTime) {
+        var startTime = moment($startTime.timepicker("getTime"));
+        var endTime = moment($endTime.timepicker("getTime"));
+        if (isStartTimeChange && (startTime.isSame(endTime) || startTime.isAfter(endTime))) {
+            $endTime.timepicker("setTime", startTime.add(30, 'm').format('h:mm a'));
+        }
+        else if (!isStartTimeChange && (endTime.isSame(startTime) || endTime.isBefore(startTime))) {
+            $startTime.timepicker("setTime", endTime.subtract(30, 'm').format('h:mm a'));
+        }
+    }
+</script>
+<div class="form-group">
+    @Html.LabelFor(model => model.RestaurantName, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.RestaurantName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.RestaurantName, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", maxlength = 2} })
+        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.OpeningTime, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.OpeningTime, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.OpeningTime, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ClosingTime, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ClosingTime, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ClosingTime, "", new { @class = "text-danger" })
+    </div>
+</div>

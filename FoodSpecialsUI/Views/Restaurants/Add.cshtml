@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+
+<script src="~/scripts/jquery-2.2.4.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+    function GetRestaurantAddedTd() {
+        return '<td class="text-success text-center">Added</td>';
+    }
+
+    function GetRestarauntErrorTd() {
+        return '<td class="text-danger text-center">Restaurant Not Added. Too bad.</td>';
+    }
+
+    $(document).ready(function () {
+        $('#btnSearch').on('click', function (e) {
+            e.preventDefault();
+
+            $('#loadingSearch').show();
+            $.ajax({
+                url: '/Restaurants/SearchRestaurants',
+                data: { term: $('#txtTerm').val(), location: $('#txtLocation').val() },
+                async: true,
+                type: 'GET',
+                success: function (data) {
+                    var html = []
+                    html.push('<h3>Results</h3>')
+                    for (var i = 0; i < data.Restaurants.length; i++) {
+                        var restaurant = data.Restaurants[i];                        
+                        html.push('<tr>')
+                        if (restaurant.NotAdded) {
+                            html.push('<td class="text-center"><button class="btn btn-success btn-add-restaurant" data-id="' + restaurant.YelpId + '" class="btnSelect">Add</button>' 
+                                + '<span id="loadingAdd" style="display:none"><img src="../Content/Images/ajax-loader.gif" /></span>'
+                                + '</td>');
+                        } else {
+                            html.push(GetRestaurantAddedTd())
+                        }
+                        html.push('<td>' + restaurant.Name + '</td>');
+                        html.push('<td>' + restaurant.DisplayAddress + '</td>');
+                        html.push('</tr>')
+                    }
+                    $('#searchResults').html(html.join(''));
+                    $('#loadingSearch').hide();
+                    $('.btn-add-restaurant').on('click', function () {
+                        var $this = $(this);
+                        $(this).hide();
+                        $('#loadingAdd').show();
+                        var id = $this.data('id');
+                        $.ajax({
+                            url: '/Restaurants/AddRestaurant',
+                            data: { id: id},
+                            async: true,
+                            type: 'POST',
+                            success: function (data) {
+                                if (data.success) {
+                                    $this.replaceWith(GetRestaurantAddedTd());
+                                } else {
+                                    $this.replaceWith(GetRestarauntErrorTd());
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+<h2>Add a Restaurant</h2>
+
+<form id="SearchRestaurants">
+    <div class="form-group">
+        <label id="lblTerm" class="font-bold">Term</label>
+        <input id="txtTerm" />
+    </div>
+
+    <div class="form-group">
+        <label id="lblLocation" class="font-bold">Location</label>
+        <input id="txtLocation" />
+    </div>
+
+    <div class="form-group">
+        <button id="btnSearch" class="btn btn-primary">Search</button>
+        <span id="loadingSearch" style="display:none"><img src="~/Content/Images/ajax-loader.gif" /></span>
+    </div>
+</form>
+
+<table id="searchResults" cellpadding="10"></table>
+
+

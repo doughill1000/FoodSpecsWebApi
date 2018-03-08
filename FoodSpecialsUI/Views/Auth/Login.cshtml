@@ -1,0 +1,29 @@
+﻿@using FoodSpecialsUI.ViewModels
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "Login Page";
+}
+
+<h2>Login</h2>
+
+@Html.ValidationSummary(true)
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+
+        @Html.Partial("_Credentials", new CredentialsViewModel())
+
+        @Html.HiddenFor(model => model.ReturnUrl)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="LoginButton" value="Login" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

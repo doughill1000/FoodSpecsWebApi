@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ecfbda04eea84b2b80b518a7d0a87dd3" Name="Diagram1" ZoomLevel="99">
+        <EntityTypeShape EntityType="HillBrosInc_FoodSpecialsModel.AspNetUser" Width="1.5" PointX="0.75" PointY="1.625" />
+        <EntityTypeShape EntityType="HillBrosInc_FoodSpecialsModel.UserSpecialRating" Width="1.5" PointX="4.75" PointY="0.5" />
+        <AssociationConnector Association="HillBrosInc_FoodSpecialsModel.FK_UserSpecialRating_AspNetUsers" />
+        <EntityTypeShape EntityType="HillBrosInc_FoodSpecialsModel.FoodSpecial" Width="1.5" PointX="3" PointY="4" />
+        <AssociationConnector Association="HillBrosInc_FoodSpecialsModel.FK_FoodSpecial_AspNetUsers" />
+        <AssociationConnector Association="HillBrosInc_FoodSpecialsModel.FK_UserSpecialRating_FoodSpecial" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

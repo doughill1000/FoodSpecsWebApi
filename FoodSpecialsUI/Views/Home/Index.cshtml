@@ -1,0 +1,12 @@
+﻿@using FoodSpecialsUI.Constants;
+@{
+    ViewBag.Title = "Home";
+}
+
+<h2>Home</h2>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole(AuthConstants.Admin))
+{
+    @Html.ActionLink("Register here", "Create User")
+}
+
